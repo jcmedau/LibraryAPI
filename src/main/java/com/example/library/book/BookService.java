@@ -32,26 +32,24 @@ public class BookService {
    }
 
    public Optional<Book> save (Book book) {
-      Optional<Book> opt = Optional.empty();
       try {
-         opt = Optional.of(bookRepository.save(book));
+         return Optional.ofNullable(bookRepository.save(book));
       }
-      catch (DataIntegrityViolationException e) { }
-      return opt;
+      catch (DataIntegrityViolationException e) {
+         return Optional.empty();
+      }
    }
 
-   public Optional<Book> updateById(Long id, String title) {
-      Optional<Book> search = bookRepository.findById(id);
-      Optional<Book> opt = Optional.empty();
-      if (search.isPresent()) {
-         Book toUpdate = search.get();
-         toUpdate.setTitle(title);
-         opt = Optional.empty();
+   public Optional<Book> updateById(Long id, String newTitle) {
+      return bookRepository.findById(id).map(book -> {
          try {
-            opt = Optional.of(bookRepository.save(toUpdate));
+            book.setTitle(newTitle);
+            bookRepository.save(book);
          }
-         catch (DataIntegrityViolationException e) { }
-      }
-      return opt;
+         catch (DataIntegrityViolationException e) {
+            return null;
+         }
+         return book;
+      });
    }
 }
