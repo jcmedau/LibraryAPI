@@ -35,19 +35,19 @@ public class BookControllerTests {
    @Order(3)
    public void findABookById_StatusOk() {
       assertEquals(HttpStatus.OK,
-            bookController.getBook(1l).getStatusCode());
+            bookController.getBookById(1l).getStatusCode());
    }
 
    @Test
    @Order(4)
    public void findABookByWrongId_StatusBadRequest() {
       assertEquals(HttpStatus.BAD_REQUEST,
-            bookController.getBook(2l).getStatusCode());
+            bookController.getBookById(2l).getStatusCode());
    }
 
    @Test
    @Order(5)
-   public void findAListOfBooks_StausOk() {
+   public void findAListOfBooks_StatusOk() {
       assertEquals(HttpStatus.OK,
             bookController.getAllBooks().getStatusCode());
    }

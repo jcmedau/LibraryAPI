@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -40,9 +42,7 @@ class BookServiceTests {
    @Order(3)
    void unsuccessfullyFindBookByIdTest() {
       Long badId = 2l;
-      Assertions.assertThrows(BookNotFoundException.class, () -> {
-         bookService.findById(badId);
-      });
+      assertEquals(Optional.empty(),bookService.findById(badId));
    }
 
    @Test
